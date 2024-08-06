@@ -56,6 +56,7 @@ const App = () => {
   const [enabledCameraControls, setEnabledCameraControls] = useState(true);
   const [selectedHouseObject, setSelectedHouseObject] = useState<Object3D>();
   const [selectedPointObject, setSelectedPointObject] = useState<Object3D>();
+  const [selectedPointLocalPosition, setSelectedPointLocalPosition] = useState<Vector3>(new Vector3());
 
   /** Callbacks */
   const handleOnClickHousePointObject = (
@@ -65,6 +66,12 @@ const App = () => {
     pivotMatrix.copy(pointObject.matrixWorld);
     setSelectedPointObject(pointObject);
     setSelectedHouseObject(houseObject);
+
+    // Store the local position of the selected point
+    const localPosition = new Vector3();
+    pointObject.getWorldPosition(localPosition);
+    houseObject.worldToLocal(localPosition);
+    setSelectedPointLocalPosition(localPosition);
   };
 
   const handleOnDragPivotControls = (matrix: Matrix4) => {
@@ -74,6 +81,26 @@ const App = () => {
      * Add logic that updates the position and rotation of the selected house object
      * based on the selected point object's position and rotation.
      */
+
+    if (selectedHouseObject && selectedPointObject) {
+      // Extract position
+      const position = new Vector3();
+      matrix.decompose(position, new Quaternion(), new Vector3());
+
+      // Calculate new house position based on the pivot's new position
+      const newHousePosition = position.clone().sub(selectedPointLocalPosition.clone().applyQuaternion(selectedHouseObject.quaternion));
+
+      // Update house position
+      selectedHouseObject.position.copy(newHousePosition);
+
+      // Extract rotation
+      const quaternion = new Quaternion();
+      matrix.decompose(new Vector3(), quaternion, new Vector3());
+      const rotation = new Euler().setFromQuaternion(quaternion);
+
+      // Update house rotation
+      selectedHouseObject.rotation.copy(rotation);
+    }
   };
 
   const handleOnDragEndPivotControls = () => {
