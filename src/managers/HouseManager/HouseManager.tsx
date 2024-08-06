@@ -12,7 +12,7 @@ const HouseManager = (props: HouseManagerProps) => {
           {...house}
           onClickHousePointObject={(pointObject) => {
             const houseGroupObject = pointObject.parent?.parent?.children.find(
-              (child) => child.name === "HouseGroup"
+              (child) => child.name === "HouseGroup" && child.uuid === pointObject.parent?.uuid
             );
 
             if (onClickHousePointObject && houseGroupObject)
