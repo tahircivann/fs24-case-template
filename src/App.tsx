@@ -16,8 +16,8 @@ import GridHelper from "components/GridHelper";
 import HouseManager from "managers/HouseManager";
 import Light from "components/Light";
 import PivotControls from "components/PivotControls";
-import Sidebar from "./Sidebar";
-import FindModels from "./FindModels";
+import Sidebar from "./components/Sidebar/Sidebar";
+import FindModels from "./components/FindModels/FindModels";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 

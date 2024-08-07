@@ -1,13 +1,8 @@
 import React from "react";
-import { Object3D, Vector3, Euler } from "three";
+import SidebarProps from "./Sidbar.types"
 import { Card, CardContent, Typography, List, ListItem, ListItemText, Divider } from "@mui/material";
 
-interface SidebarProps {
-  selectedHouseObject: Object3D | undefined;
-  housePosition: Vector3;
-  houseRotation: Euler;
-  foundModels: Object3D[];
-}
+
 
 const Sidebar: React.FC<SidebarProps> = ({ selectedHouseObject, housePosition, houseRotation, foundModels }) => {
   return (
