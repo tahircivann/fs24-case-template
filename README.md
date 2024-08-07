@@ -1,6 +1,13 @@
 # Scaffcalc - Full Stack Developer - Use Case
 
 Welcome to the Scaffcalc Full Stack Developer use case repository. This repository contains a comprehensive demonstration of a web application built with React and a mocked API server.
+
+## Test
+
+```
+yarn jest
+``` 
+
 ## Diagram 
 
 ![App-diagram](https://github.com/user-attachments/assets/68937610-9ea8-4ec1-b4a9-6bb77f2b6e8b)
