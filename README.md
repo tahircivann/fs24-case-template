@@ -2,8 +2,8 @@
 
 Welcome to the Scaffcalc Full Stack Developer use case repository. This repository contains a comprehensive demonstration of a web application built with React and a mocked API server.
 
-## Test
-# Run test code with yarn
+# Test
+## Run test code with yarn
 ```
 yarn jest
 ``` 
