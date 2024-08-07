@@ -1,48 +1,87 @@
 import React from "react";
 import { Object3D, Vector3, Euler } from "three";
+import { Card, CardContent, Typography, List, ListItem, ListItemText, Divider } from "@mui/material";
 
 interface SidebarProps {
   selectedHouseObject: Object3D | undefined;
   housePosition: Vector3;
   houseRotation: Euler;
-  foundModels: Object3D[]; // New prop for found models
+  foundModels: Object3D[];
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ selectedHouseObject, housePosition, houseRotation, foundModels }) => {
   return (
-    <div style={{ padding: "10px", color: "white" }}>
-      <h2>Selected House Details</h2>
-      {selectedHouseObject ? (
-        console.log('selectedHouseObject', selectedHouseObject.uuid),
-        <ul>
-          <li><strong>UUID:</strong> {selectedHouseObject.uuid}</li>
-          <li><strong>Name:</strong> {selectedHouseObject.name}</li>
-          <li><strong>Position:</strong> {`(${housePosition.x.toFixed(2)}, ${housePosition.y.toFixed(2)}, ${housePosition.z.toFixed(2)})`}</li>
-          <li><strong>Rotation:</strong> {`(${houseRotation.x.toFixed(2)}, ${houseRotation.y.toFixed(2)}, ${houseRotation.z.toFixed(2)})`}</li>
-        </ul>
-      ) : (
-        <p>No house selected.</p>
-      )}
-      <h1>Found Models</h1>
-      {foundModels.length > 0 ? (
-        <ul>
-          {foundModels.map((model, index) => (
-            console.log(model.uuid),
-            <li key={model.uuid}>
-              <h2>{model.name + " " + index}</h2>
-              <ul>
-                <li><strong>UUID:</strong> {model.uuid}</li>
-                <li><strong>Name:</strong> {model.name}</li>
-                <li><strong>Position:</strong> {`(${model.position.x.toFixed(2)}, ${model.position.y.toFixed(2)}, ${model.position.z.toFixed(2)})`}</li>
-                <li><strong>Rotation:</strong> {`(${model.rotation.x.toFixed(2)}, ${model.rotation.y.toFixed(2)}, ${model.rotation.z.toFixed(2)})`}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No models found.</p>
-      )}
-    </div>
+    <Card sx={{ padding: "10px", color: "white", backgroundColor: "#202940", height: "100%", overflow: "auto" }}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Selected House Details
+        </Typography>
+        {selectedHouseObject ? (
+          <>
+            <List>
+              <ListItem>
+                <ListItemText primary="UUID" secondary={selectedHouseObject.uuid} />
+              </ListItem>
+              <ListItem>
+                <ListItemText primary="Name" secondary={selectedHouseObject.name} />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary="Position"
+                  secondary={`(${housePosition.x.toFixed(2)}, ${housePosition.y.toFixed(2)}, ${housePosition.z.toFixed(2)})`}
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary="Rotation"
+                  secondary={`(${houseRotation.x.toFixed(2)}, ${houseRotation.y.toFixed(2)}, ${houseRotation.z.toFixed(2)})`}
+                />
+              </ListItem>
+            </List>
+          </>
+        ) : (
+          <Typography variant="body2">No house selected.</Typography>
+        )}
+        <Divider sx={{ margin: "20px 0" }} />
+        <Typography variant="h6" gutterBottom>
+          Found Models
+        </Typography>
+        <List sx={{ maxHeight: 300, overflowY: 'auto' }}> {/* Set max height to 300px and make it scrollable */}
+          {foundModels.length > 0 ? (
+            foundModels.map((model, index) => (
+              <div key={model.uuid}>
+                <ListItem>
+                  <ListItemText primary={`${model.name} ${index}`} />
+                </ListItem>
+                <List disablePadding>
+                  <ListItem>
+                    <ListItemText primary="UUID" secondary={model.uuid} />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText primary="Name" secondary={model.name} />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary="Position"
+                      secondary={`(${model.position.x.toFixed(2)}, ${model.position.y.toFixed(2)}, ${model.position.z.toFixed(2)})`}
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary="Rotation"
+                      secondary={`(${model.rotation.x.toFixed(2)}, ${model.rotation.y.toFixed(2)}, ${model.rotation.z.toFixed(2)})`}
+                    />
+                  </ListItem>
+                </List>
+                {index < foundModels.length - 1 && <Divider />}
+              </div>
+            ))
+          ) : (
+            <Typography variant="body2">No models found.</Typography>
+          )}
+        </List>
+      </CardContent>
+    </Card>
   );
 };
 
