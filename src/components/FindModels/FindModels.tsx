@@ -21,9 +21,6 @@ const FindModels: React.FC<FindModelsProps> = ({ setFoundModels, houses, modelUp
 
         const models = findAll3DModels(scene);
         setFoundModels(models);
-        console.log("All 3D models in the scene:", models);
-        console.log("Houses:", houses);
-        console.log("Model updates:", modelUpdates);
     }, [scene, setFoundModels, houses, modelUpdates]); // Add houses and modelUpdates as dependencies
 
     return null;
