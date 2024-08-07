@@ -18,6 +18,8 @@ import Light from "components/Light";
 import PivotControls from "components/PivotControls";
 import Sidebar from "./Sidebar";
 import FindModels from "./FindModels";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 
 /** Constants */
 const CAMERA_POSITION = [10, 10, 10] as Vector3Tuple;
@@ -56,6 +58,20 @@ const PIVOT_DEFAULT_PROPS = {
   disableScaling: true,
   disableSliders: true
 };
+
+
+const theme = createTheme({
+  palette: {
+    mode: "dark",
+    background: {
+      default: "#151d2c",
+      paper: "#202940"
+    },
+    text: {
+      primary: "#ffffff"
+    }
+  }
+});
 
 /** Variables */
 const pivotMatrix = new Matrix4();
@@ -163,44 +179,43 @@ const App: React.FC = () => {
 
   /** Return */
   return (
-    <Container style={CONTAINER_STYLE}>
-      <div style={SIDEBAR_STYLE}>
-        <Sidebar
-          selectedHouseObject={selectedHouseObject}
-          housePosition={housePosition}
-          houseRotation={houseRotation}
-          foundModels={foundModels} // Pass found models to Sidebar
-        />
-      </div>
-      <div style={CANVAS_STYLE}>
-        <Canvas camera={{ position: CAMERA_POSITION }}>
-          <FindModels setFoundModels={setFoundModels} houses={houses} modelUpdates={modelUpdates} />
-          <AxesHelper />
-          <CameraControls enabled={enabledCameraControls} />
-          <GridHelper position={GRID_POSITION} args={[GRID_SIZE, GRID_SIZE]} />
-          <HouseManager
-            houses={houses}
-            onClickHousePointObject={handleOnClickHousePointObject}
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container style={CONTAINER_STYLE}>
+        <div style={SIDEBAR_STYLE}>
+          <Sidebar
+            selectedHouseObject={selectedHouseObject}
+            housePosition={housePosition}
+            houseRotation={houseRotation}
+            foundModels={foundModels}
           />
-          <Light />
-          <PivotControls
-            {...PIVOT_DEFAULT_PROPS}
-            enabled={!!selectedHouseObject}
-            matrix={pivotMatrix}
-            onDragStart={handleOnDragStartPivotControls}
-            onDrag={handleOnDragPivotControls}
-            onDragEnd={handleOnDragEndPivotControls}
-          />
-        </Canvas>
-        <button
-          style={{ position: "absolute", right: 20, top: 20, height: "40px" }}
-          onClick={handleOnClickGetHousesFromAPI}
-        >
-          GET Houses from API
-        </button>
-      </div>
-    </Container>
+        </div>
+        <div style={CANVAS_STYLE}>
+          <Canvas camera={{ position: CAMERA_POSITION }}>
+            <FindModels setFoundModels={setFoundModels} houses={houses} modelUpdates={modelUpdates} />
+            <AxesHelper />
+            <CameraControls enabled={enabledCameraControls} />
+            <GridHelper position={GRID_POSITION} args={[GRID_SIZE, GRID_SIZE]} />
+            <HouseManager houses={houses} onClickHousePointObject={handleOnClickHousePointObject} />
+            <Light />
+            <PivotControls
+              {...PIVOT_DEFAULT_PROPS}
+              enabled={!!selectedHouseObject}
+              matrix={pivotMatrix}
+              onDragStart={handleOnDragStartPivotControls}
+              onDrag={handleOnDragPivotControls}
+              onDragEnd={handleOnDragEndPivotControls}
+            />
+          </Canvas>
+          <button
+            style={{ position: "absolute", right: 20, top: 20, height: "40px" }}
+            onClick={handleOnClickGetHousesFromAPI}
+          >
+            GET Houses from API
+          </button>
+        </div>
+      </Container>
+    </ThemeProvider>
   );
 };
-
 export default App;
