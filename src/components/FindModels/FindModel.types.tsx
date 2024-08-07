@@ -3,8 +3,8 @@ import { House } from "managers/HouseManager/HouseManager.types";
 
 interface FindModelsProps {
     setFoundModels: React.Dispatch<React.SetStateAction<Object3D[]>>;
-    houses: House[]; // Add houses as a dependency
-    modelUpdates: number; // Add modelUpdates as a dependency
+    houses: House[];
+    modelUpdates: number;
 }
 
 export default FindModelsProps;
